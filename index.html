@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jennings AI — Coming Soon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      min-height: 100%;
+      background: #000000;
+      color: #e8e0d0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 64px 24px;
+    }
+
+    .glow {
+      display: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 560px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── Logo image ── */
+    .logo-wrap {
+      margin-bottom: 32px;
+      width: clamp(360px, 70vw, 560px);
+    }
+
+    .logo-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Tagline block ── */
+    .slogan {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: clamp(12px, 2vw, 14px);
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: #BAA57F;
+      margin-bottom: 36px;
+    }
+
+    .slogan .period {
+      letter-spacing: 0;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 36px;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(200,170,100,0.15);
+    }
+
+    .divider-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(200,170,100,0.35);
+    }
+
+    /* ── Hero copy ── */
+    .hook {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: clamp(18px, 3.5vw, 28px);
+      line-height: 1.5;
+      color: #e8e0d0;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+
+    .hook em {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: 1.2em;
+      letter-spacing: 0.02em;
+      color: rgba(232,224,208,0.5);
+    }
+
+    .descriptor {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      color: rgba(232,224,208,0.6);
+      letter-spacing: 0.03em;
+      line-height: 1.8;
+      margin-bottom: 52px;
+    }
+
+    /* ── Email capture ── */
+    .capture {
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid rgba(200,170,100,0.3);
+      margin-bottom: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .capture:focus-within {
+      border-color: rgba(200,170,100,0.7);
+    }
+
+    .capture input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 13px 0;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: #e8e0d0;
+      letter-spacing: 0.03em;
+    }
+
+    .capture input::placeholder {
+      color: rgba(232,224,208,0.45);
+    }
+
+    /* Visible focus ring for keyboard nav */
+    .capture input:focus {
+      outline: none;
+    }
+
+    .capture:has(input:focus) {
+      border-color: rgba(200,170,100,0.8);
+      box-shadow: 0 2px 0 0 rgba(200,170,100,0.25);
+    }
+
+    .capture button {
+      background: transparent;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      color: #BAA57F;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      padding: 13px 0 13px 18px;
+      transition: color 0.2s;
+      white-space: nowrap;
+    }
+
+    .capture button:hover { color: #e8d090; }
+    .capture button:focus-visible {
+      outline: 2px solid rgba(200,170,100,0.6);
+      outline-offset: 3px;
+    }
+    .capture button.submitted { color: rgba(160,200,150,0.85); }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .fine-print {
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      color: rgba(232,224,208,0.45);
+      letter-spacing: 0.06em;
+    }
+
+    .form-error {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      color: rgba(220,160,130,0.75);
+      letter-spacing: 0.03em;
+      min-height: 16px;
+      margin-top: 6px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 26px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 11px;
+      color: rgba(232,224,208,0.12);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow"></div>
+
+  <div class="container">
+
+    <div class="logo-wrap">
+      <img src="logo-transparent.png" alt="Jennings AI">
+    </div>
+
+    <div class="slogan"><span class="word">Work<span class="period">.</span></span> <span class="word">Home<span class="period">.</span></span> <span class="word">Handled<span class="period">.</span></span></div>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-dot"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <div class="hook">
+      Prepare for your household chaos wrangler<br>
+      <em>and your professional zen.</em>
+    </div>
+
+    <div class="descriptor">
+      Coming soon.<br>
+      Be the first to name your future sanity.
+    </div>
+
+    <form class="capture" onsubmit="handleSubmit(event)" novalidate>
+      <label for="email" class="sr-only">Email address</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="your@email.com"
+        autocomplete="email"
+        required
+        aria-required="true"
+        aria-describedby="form-hint form-error"
+      >
+      <button type="submit" id="btn" aria-label="Reserve my invitation">Reserve my Invitation</button>
+    </form>
+
+    <div id="form-hint" class="fine-print">No spam. Just your spot, when we're ready.</div>
+    <div id="form-error" class="form-error" role="alert" aria-live="polite"></div>
+
+  </div>
+
+  <footer>jenningsai.com</footer>
+
+  <script>
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn');
+      const input = document.getElementById('email');
+      const error = document.getElementById('form-error');
+
+      if (!input.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+        error.textContent = 'Please enter a valid email address.';
+        input.focus();
+        return;
+      }
+
+      error.textContent = '';
+      btn.textContent = "You're on the list ✓";
+      btn.classList.add('submitted');
+      btn.setAttribute('aria-label', "You're on the list");
+      input.value = '';
+      input.placeholder = 'See you soon.';
+      input.disabled = true;
+      input.setAttribute('aria-disabled', 'true');
+      btn.disabled = true;
+    }
+  </script>
+
+</body>
+</html>
