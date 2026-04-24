@@ -271,7 +271,9 @@
   <footer>jenningsai.com</footer>
 
   <script>
-    function handleSubmit(e) {
+    const SIGNUP_URL = 'https://jennings-signup.azurewebsites.net/api/signup';
+
+    async function handleSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('btn');
       const input = document.getElementById('email');
@@ -284,6 +286,23 @@
       }
 
       error.textContent = '';
+      btn.textContent = 'Saving…';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(SIGNUP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: input.value.trim().toLowerCase() })
+        });
+        if (!res.ok) throw new Error('server');
+      } catch (_) {
+        btn.textContent = 'Reserve my Invitation';
+        btn.disabled = false;
+        error.textContent = 'Something went wrong. Try again.';
+        return;
+      }
+
       btn.textContent = "You're on the list ✓";
       btn.classList.add('submitted');
       btn.setAttribute('aria-label', "You're on the list");
@@ -291,7 +310,6 @@
       input.placeholder = 'See you soon.';
       input.disabled = true;
       input.setAttribute('aria-disabled', 'true');
-      btn.disabled = true;
     }
   </script>
 
